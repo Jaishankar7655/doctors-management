@@ -1,0 +1,12 @@
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import DoctorViewSet, SpecialtyViewSet
+
+router = DefaultRouter()
+router.register(r'specialties', SpecialtyViewSet, basename='specialty')
+router.register(r'', DoctorViewSet, basename='doctor')
+
+urlpatterns = [
+    path('', include(router.urls)),
+]
+
