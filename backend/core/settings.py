@@ -79,10 +79,6 @@ DATABASES = {
         'PASSWORD': os.environ.get('DATABASE_PASSWORD', ''),
         'HOST': os.environ.get('DATABASE_HOST', ''),
         'PORT': os.environ.get('DATABASE_PORT', ''),
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            'charset': 'utf8mb4',
-        } if os.environ.get('DATABASE_ENGINE') == 'django.db.backends.mysql' else {},
     }
 }
 
@@ -163,6 +159,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:3001",
     "http://localhost:3002",
+    "http://40.81.224.249",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

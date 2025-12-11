@@ -1,48 +1,17 @@
-version: '3.8'
-
 services:
-  # MySQL Database
-  db:
-    image: mysql:8.0
-    container_name: healthcare_db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword123
-      MYSQL_DATABASE: healthcare_db
-      MYSQL_USER: healthcare_user
-      MYSQL_PASSWORD: healthcare_pass123
-    volumes:
-      - mysql_data:/var/lib/mysql
-    ports:
-      - "3306:3306"
-    networks:
-      - healthcare_network
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-      timeout: 20s
-      retries: 10
-
   # Django Backend
   backend:
-    build: ./backend
+    image: jaishankar7655/healthcare-backend:latest
     container_name: healthcare_backend
     restart: always
     environment:
       - DEBUG=False
       - SECRET_KEY=your-secret-key-change-in-production
-      - DATABASE_ENGINE=django.db.backends.mysql
-      - DATABASE_NAME=healthcare_db
-      - DATABASE_USER=healthcare_user
-      - DATABASE_PASSWORD=healthcare_pass123
-      - DATABASE_HOST=db
-      - DATABASE_PORT=3306
       - ALLOWED_HOSTS=40.81.224.249,localhost,127.0.0.1
     volumes:
       - static_volume:/app/staticfiles
       - media_volume:/app/media
-    depends_on:
-      db:
-        condition: service_healthy
+      - sqlite_data:/app
     networks:
       - healthcare_network
     command: >
@@ -52,7 +21,7 @@ services:
 
   # Patient Portal
   patient-portal:
-    build: ./patient-portal
+    image: jaishankar7655/healthcare-patient-portal:latest
     container_name: healthcare_patient_portal
     restart: always
     networks:
@@ -60,7 +29,7 @@ services:
 
   # Admin Portal
   admin-portal:
-    build: ./admin-portal
+    image: jaishankar7655/healthcare-admin-portal:latest
     container_name: healthcare_admin_portal
     restart: always
     networks:
@@ -68,7 +37,7 @@ services:
 
   # Doctor Portal
   doctor-portal:
-    build: ./doctor-portal
+    image: jaishankar7655/healthcare-doctor-portal:latest
     container_name: healthcare_doctor_portal
     restart: always
     networks:
@@ -98,7 +67,7 @@ services:
       - healthcare_network
 
 volumes:
-  mysql_data:
+  sqlite_data:
   static_volume:
   media_volume:
   patient_build:
