@@ -26,7 +26,7 @@ Access the application at **http://40.81.224.249**
 
 ### 1. Clone the Repository
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/Jaishankar7655/doctors-management
 cd Doctors
 ```
 
